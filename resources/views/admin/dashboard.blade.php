@@ -196,9 +196,20 @@
                                         <span class="badge bg-warning text-dark">Not Checked Out</span>
                                         @endif
                                     </td>
+                                    <!-- In your admin/dashboard.blade.php file, update the attendance section -->
                                     <td>
-                                        @if($record->worked_hours > 0)
-                                        {{ $record->worked_hours }} hours
+                                        @if($record->check_out)
+                                        @php
+                                        // Calculate worked hours if not set or 0
+                                        if (!$record->worked_hours || $record->worked_hours == 0) {
+                                        $checkInTime = \Carbon\Carbon::parse($record->check_in);
+                                        $checkOutTime = \Carbon\Carbon::parse($record->check_out);
+                                        $workedHours = round($checkOutTime->diffInMinutes($checkInTime) / 60, 2);
+                                        echo $workedHours . ' hours';
+                                        } else {
+                                        echo $record->worked_hours . ' hours';
+                                        }
+                                        @endphp
                                         @else
                                         <span class="badge bg-secondary">Not Calculated</span>
                                         @endif

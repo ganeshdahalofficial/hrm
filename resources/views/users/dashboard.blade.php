@@ -209,6 +209,7 @@
                                     </button>
                                 </form>
                             </div>
+                            </div>
 
                             <!-- Today's attendance status -->
                             <div class="attendance-status d-flex flex-row align-items-center justify-content-center">

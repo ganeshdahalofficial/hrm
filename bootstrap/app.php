@@ -15,6 +15,9 @@ return Application::configure(basePath: dirname(__DIR__))
             'auth' => \App\Http\Middleware\Authenticate::class,
             'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
             'redirect.if.auth' => \App\Http\Middleware\RedirectIfAuthenticatedCustom::class,
+
+            // ✅ Register admin middleware
+            'auth.admin' => \App\Http\Middleware\AdminAuthenticate::class,
         ]);
 
         $middleware->append([

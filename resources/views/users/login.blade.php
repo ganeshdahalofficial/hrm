@@ -103,6 +103,9 @@
         <div class="signup-link">
             <p>Don't have an account? <a href="{{ route('users.signup') }}">Sign Up</a></p>
         </div>
+          <div class="signup-link">
+            <p>Forgot Password? <a href="{{ route('users.signup') }}">Sign Up</a></p>
+        </div>
     </div>
 </body>
 </html>
