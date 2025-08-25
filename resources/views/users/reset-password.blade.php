@@ -133,7 +133,7 @@ document.getElementById('resetForm').addEventListener('submit', async function(e
             // Handle session expired
             if (res.status === 400 && data.message.includes("Session expired")) {
                 alert(data.message);
-                window.location.href = "{{ route('users.forgot') }}";
+                window.location.href = "{{ route('users.forgot-password') }}";
                 return;
             }
 

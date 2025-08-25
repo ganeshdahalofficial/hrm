@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <title>Admin Dashboard - NexHRM</title>
@@ -262,7 +261,6 @@
                     </div>
                 </div>
             </div>
-
             <!-- Tasks Section -->
             <div id="tasks" class="content-section container-fluid mt-4">
                 <div class="card card-custom text-white p-4">

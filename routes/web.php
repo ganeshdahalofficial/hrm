@@ -24,6 +24,32 @@ Route::post('/users/signup', [UserAuthController::class, 'register'])->name('use
 
 /*
 |--------------------------------------------------------------------------
+| Forgot Password Routes (FIXED)
+|--------------------------------------------------------------------------
+*/
+Route::get('/users/forgot-password', function () {
+    return view('users.forgot-password');
+})->name('users.forgot-password');
+
+// FIXED: Changed route name to avoid conflict and fixed controller method
+Route::post('/users/forgot-password/send-otp', [UserAuthController::class, 'sendOtp'])->name('users.forgot.send-otp');
+
+// Verify OTP
+Route::get('/users/verify-otp', function () {
+    return view('users.verify-otp');
+})->name('users.otp.form');
+
+Route::post('/users/verify-otp', [UserAuthController::class, 'verifyOtp'])->name('users.otp.submit');
+
+// Reset Password
+Route::get('/users/reset-password', function () {
+    return view('users.reset-password');
+})->name('users.reset-password');
+
+Route::post('/users/reset-password', [UserAuthController::class, 'resetPassword'])->name('users.reset.submit');
+
+/*
+|--------------------------------------------------------------------------
 | Admin Auth
 |--------------------------------------------------------------------------
 */

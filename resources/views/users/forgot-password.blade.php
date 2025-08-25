@@ -5,7 +5,7 @@
     <title>Forgot Password - NexHRM</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
+     <style>
         :root {
             --primary-gradient: linear-gradient(135deg, #a8a5e2ff, #083c4dff);
             --card-bg: rgba(255, 255, 255, 0.1);
@@ -106,7 +106,8 @@
             </div>
         @endif
 
-        <form method="POST" action="{{ route('users.forgot.submit') }}">
+        <!-- FIXED: Changed action to new route -->
+        <form method="POST" action="{{ route('users.forgot.send-otp') }}">
             @csrf
             <div class="mb-3">
                 <input type="email" name="email" class="form-control" placeholder="Enter your email" required>

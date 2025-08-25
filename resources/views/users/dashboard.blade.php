@@ -1,21 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Cache-Control" content="no-store" />
+    <title>User Dashboard - NexHRM</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>User Dashboard - NexHRM</title>
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <style>
         :root {
-            --primary-gradient: linear-gradient(135deg, #a8a5e2ff, #083c4dff);
+            --primary-gradient: linear-gradient(135deg, #a8a5e2ff, #687BA6);
             --card-bg: rgba(255, 255, 255, 0.1);
             --card-hover-bg: rgba(255, 255, 255, 0.25);
             --text-light: #ffffff;
-            --text-dark: #333333;
+            --text-dark: #687BA6;
             --transition-speed: 0.3s;
         }
 
@@ -25,6 +23,7 @@
             background: var(--primary-gradient);
             font-family: 'Segoe UI', sans-serif;
             color: var(--text-light);
+            padding-top: 70px; /* Added to account for fixed navbar */
         }
 
         .sidebar {
@@ -33,6 +32,14 @@
             backdrop-filter: blur(10px);
             padding: 20px;
             width: 250px;
+            border-top-right-radius: 10px;
+            border-bottom-right-radius: 10px;
+            position: fixed; /* Make sidebar fixed */
+            left: 0;
+            top: 0;
+            z-index: 1000;
+            overflow-y: auto; /* Allow scrolling if needed */
+            height: 100vh;
         }
 
         .sidebar h3 {
@@ -58,6 +65,12 @@
             background-color: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
             color: var(--text-light);
+            position: fixed; /* Make navbar fixed */
+            top: 0;
+            right: 0;
+            left: 250px; /* Account for sidebar width */
+            z-index: 1030; /* Higher than sidebar */
+            padding: 0.5rem 1rem;
         }
 
         .navbar-text {
@@ -77,18 +90,22 @@
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
         }
 
-        .card-custom:hover {
-            background: var(--card-hover-bg);
-        }
-
         .card-title {
             font-size: 1.5rem;
             font-weight: 600;
         }
 
         .card-text {
-            font-size: 1.2rem;
-            font-weight: 500;
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
+
+        .text-white {
+            color: var(--text-light) !important;
+        }
+
+        .text-dark {
+            color: var(--text-dark) !important;
         }
 
         .content-section {
@@ -103,34 +120,17 @@
             font-size: 0.85em;
             padding: 0.5em 0.75em;
         }
-
-        .attendance-status {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 15px;
-            border-radius: 10px;
-            margin-top: 15px;
+        
+        /* New styles for main content area */
+        .main-content {
+            margin-left: 250px; /* Same as sidebar width */
+            padding: 20px;
+            width: calc(100% - 250px);
         }
-
-        .btn-success,
-        .btn-danger {
-            transition: all 0.3s ease;
+        
+        .section-container {
+            margin-top: 70px; /* Space for fixed navbar */
         }
-
-        .btn-success:hover:not(:disabled),
-        .btn-danger:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        }
-
-        .btn-success:disabled,
-        .btn-danger:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-        thead tr td:first-child {
-   border-top-left-radius: 10px;
-   border-top-right-radius: 10px;
-}
     </style>
 </head>
 
@@ -145,7 +145,7 @@
         </div>
 
         <!-- Main Content -->
-        <div class="flex-grow-1">
+        <div class="main-content">
             <!-- Top Navbar -->
             <nav class="navbar navbar-expand-lg shadow-sm px-4 py-3">
                 <div class="container-fluid">
@@ -158,7 +158,7 @@
             </nav>
 
             <!-- Dashboard Section -->
-            <div id="dashboard" class="content-section active container-fluid mt-4">
+            <div id="dashboard" class="content-section active section-container">
                 <div class="row g-4">
                     <div class="col-md-3">
                         <div class="card text-center card-custom text-white p-4">
@@ -185,7 +185,8 @@
                         </div>
                     </div>
                 </div>
-                <!-- Check-in/Check-out Section -->
+                
+                <!-- Check-in/Check-out Section - Now properly inside Dashboard -->
                 <div class="row mt-4">
                     <div class="col-12">
                         <div class="card card-custom text-white p-4">
@@ -209,10 +210,9 @@
                                     </button>
                                 </form>
                             </div>
-                            </div>
 
                             <!-- Today's attendance status -->
-                            <div class="attendance-status d-flex flex-row align-items-center justify-content-center">
+                            <div class="attendance-status d-flex flex-column align-items-center justify-content-center">
                                 <h5>Today's Status:</h5>
                                 @if($hasCheckedInToday)
                                 <div class="d-flex align-items-center gap-2">
@@ -238,10 +238,8 @@
                 </div>
             </div>
 
-
             <!-- Profile Section -->
-            <!-- Profile Section -->
-            <div id="profile" class="content-section container-fluid mt-4">
+            <div id="profile" class="content-section section-container">
                 <div class="card card-custom text-white p-4">
                     <div class="d-flex justify-content-between align-items-center mb-4">
                         <h4 class="card-title mb-0">Your Profile</h4>
@@ -302,8 +300,7 @@
             </div>
 
             <!-- Tasks Section -->
-            <!-- Tasks Section -->
-            <div id="tasks" class="content-section container-fluid mt-4">
+            <div id="tasks" class="content-section section-container">
                 <div class="card card-custom text-white p-4">
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <h4 class="card-title">Task Manager</h4>
@@ -370,7 +367,6 @@
                                 </tr>
                                 @endforeach
                             </tbody>
-
                         </table>
                     </div>
                 </div>
@@ -402,69 +398,6 @@
             }
         }
 
-        function enableUpdate(selectElement) {
-            const row = selectElement.closest('tr');
-            const button = row.querySelector('button');
-            button.disabled = !selectElement.value;
-        }
-
-        function updateTaskStatus(taskId, buttonElement) {
-            const row = buttonElement.closest('tr');
-            const selectElement = row.querySelector('select');
-            const newStatus = selectElement.value;
-
-            if (!newStatus) {
-                alert('Please select a status first');
-                return;
-            }
-
-            buttonElement.disabled = true;
-            buttonElement.innerText = "Updating...";
-
-            // Get the CSRF token from the meta tag
-            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
-            fetch(`/tasks/${taskId}/status`, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "X-CSRF-TOKEN": csrfToken,
-                        "Accept": "application/json",
-                        "X-Requested-With": "XMLHttpRequest"
-                    },
-                    body: JSON.stringify({
-                        status: newStatus
-                    })
-                })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    if (data.success) {
-                        buttonElement.innerText = "Updated";
-                        setTimeout(() => {
-                            // Update the status display
-                            const statusCell = row.querySelector('td:nth-child(3)');
-                            statusCell.innerHTML = `<span class="badge bg-${getStatusColor(newStatus)}">${newStatus}</span>`;
-
-                            // Remove the update button
-                            const actionCell = row.querySelector('td:nth-child(5)');
-                            actionCell.innerHTML = '';
-                        }, 1000);
-                    } else {
-                        throw new Error(data.message || 'Update failed');
-                    }
-                })
-                .catch(err => {
-                    console.error("Update error:", err);
-                    alert("Failed to update task. Please try again.");
-                    buttonElement.innerText = "Update";
-                    buttonElement.disabled = false;
-                });
-        }
         // Enable update button when status changes
         function enableUpdateButton(selectElement) {
             const taskId = selectElement.dataset.taskId;
@@ -538,25 +471,24 @@
 
         // Profile edit functions
         function toggleEditMode() {
-    const fields = ['nameField', 'departmentField', 'designationField', 'joiningDateField', 'phoneField', 'genderField'];
-    const saveButtonContainer = document.getElementById('saveButtonContainer');
+            const fields = ['nameField', 'departmentField', 'designationField', 'joiningDateField', 'phoneField', 'genderField'];
+            const saveButtonContainer = document.getElementById('saveButtonContainer');
 
-    fields.forEach(field => {
-        const element = document.getElementById(field);
-        if (element.tagName === 'SELECT') {
-            element.disabled = false;
-        } else {
-            element.readOnly = false;
+            fields.forEach(field => {
+                const element = document.getElementById(field);
+                if (element.tagName === 'SELECT') {
+                    element.disabled = false;
+                } else {
+                    element.readOnly = false;
+                }
+
+                element.classList.remove('bg-transparent');
+                element.classList.add('bg-dark');
+            });
+
+            saveButtonContainer.classList.remove('d-none');
+            saveButtonContainer.classList.add('d-block');
         }
-
-        element.classList.remove('bg-transparent');
-        element.classList.add('bg-dark');
-    });
-
-    saveButtonContainer.classList.remove('d-none');
-    saveButtonContainer.classList.add('d-block');
-}
-
 
         function cancelEdit() {
             toggleEditMode();
@@ -573,5 +505,4 @@
         });
     </script>
 </body>
-
 </html>
